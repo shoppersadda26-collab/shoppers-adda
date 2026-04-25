@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shopper's Adda — Trekking, Camping & Riding Gear</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --olive:#3d4a2e;--olive2:#5a6b40;--olive-pale:#eef2e6;
+  --sand:#f4f0e8;--amber:#b8892a;--amber2:#e6a830;
+  --text:#1a1f12;--muted:#6b7355;--white:#fff;
+  --border:#d5dac5;--radius:14px;--cart-accent:#e05c2a;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--sand);color:var(--text);}
+.hero{width:100%;position:relative;overflow:hidden;display:block;line-height:0;}
+.hero img{width:100%;max-height:420px;object-fit:cover;object-position:center top;display:block;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,rgba(10,18,5,.5) 100%);}
+.ticker{background:var(--amber2);padding:8px 0;overflow:hidden;white-space:nowrap;}
+.ticker-inner{display:inline-block;animation:tick 32s linear infinite;}
+.ticker-inner span{font-size:13px;font-weight:500;color:var(--olive);padding:0 36px;letter-spacing:.3px;}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.cat-nav{background:var(--olive);position:sticky;top:0;z-index:200;}
+.cat-nav-inner{max-width:1140px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0 12px;}
+.cat-nav-inner::-webkit-scrollbar{display:none;}
+.cat-btn{padding:12px 16px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.65);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;}
+.cat-btn:hover,.cat-btn.active{color:#fff;border-bottom-color:var(--amber2);}
+.topbar{max-width:1140px;margin:28px auto 0;padding:0 18px;display:flex;gap:12px;align-items:center;}
+.search-wrap{flex:1;position:relative;}
+.search-input{width:100%;padding:12px 18px 12px 44px;border:1.5px solid var(--border);border-radius:40px;background:#fff;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;}
+.search-input:focus{border-color:var(--olive2);}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;}
+.cart-btn{position:relative;background:var(--olive);color:#fff;border:none;padding:12px 20px;border-radius:40px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:background .2s;flex-shrink:0;}
+.cart-btn:hover{background:var(--olive2);}
+.cart-count{background:var(--cart-accent);color:#fff;border-radius:50%;width:20px;height:20px;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;position:absolute;top:-6px;right:-6px;transition:transform .2s;}
+.cart-count.pop{animation:pop .25s ease;}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+main{max-width:1140px;margin:32px auto 80px;padding:0 18px;}
+.section{margin-bottom:56px;}
+.section-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:12px;border-bottom:1.5px solid var(--border);}
+.section-title{font-family:'Bebas Neue',cursive;font-size:26px;letter-spacing:1.5px;color:var(--olive);}
+.section-count{font-size:11px;color:var(--muted);background:var(--olive-pale);padding:3px 10px;border-radius:20px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 2px 8px rgba(30,40,15,.07);transition:transform .18s,box-shadow .18s;}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(30,40,15,.13);}
+.card-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--olive-pale);display:block;}
+.card-img-placeholder{width:100%;aspect-ratio:4/3;background:var(--olive-pale);display:flex;align-items:center;justify-content:center;font-size:38px;}
+.card-body{padding:14px 14px 12px;flex:1;display:flex;flex-direction:column;gap:8px;}
+.card-name{font-size:13px;font-weight:500;line-height:1.4;color:var(--text);flex:1;}
+.card-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.card-price{font-size:17px;font-weight:600;color:var(--olive);}
+.card-price-old{font-size:11px;text-decoration:line-through;color:var(--muted);margin-left:4px;font-weight:400;}
+.add-btn{background:var(--olive);color:#fff;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background .18s,transform .12s;flex-shrink:0;}
+.add-btn:hover{background:var(--olive2);}
+.add-btn:active{transform:scale(.88);}
+.add-btn.added{background:var(--cart-accent);}
+.badge{font-size:10px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;padding:3px 8px;border-radius:4px;width:fit-content;}
+.badge-popular{background:#e8f5e9;color:#2e7d32;}
+.badge-offer{background:#fff3e0;color:#e65100;}
+.badge-new{background:#e3f2fd;color:#1565c0;}
+.badge-hot{background:#fce4ec;color:#c62828;}
+.offer-tag{font-size:11px;color:var(--cart-accent);font-weight:500;}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:400;opacity:0;pointer-events:none;transition:opacity .3s;}
+.cart-overlay.open{opacity:1;pointer-events:all;}
+.cart-drawer{position:fixed;top:0;right:0;bottom:0;width:360px;max-width:95vw;background:#fff;z-index:401;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,.15);}
+.cart-drawer.open{transform:translateX(0);}
+.cart-head{background:var(--olive);color:#fff;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.cart-head h2{font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:1px;}
+.cart-close{background:none;border:none;color:#fff;font-size:24px;cursor:pointer;line-height:1;padding:4px;}
+.cart-items{flex:1;overflow-y:auto;padding:16px;}
+.cart-empty{text-align:center;padding:60px 20px;color:var(--muted);}
+.cart-empty .ce-icon{font-size:48px;margin-bottom:12px;}
+.cart-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.ci-img{width:52px;height:52px;border-radius:8px;object-fit:cover;background:var(--olive-pale);flex-shrink:0;}
+.ci-emoji{width:52px;height:52px;border-radius:8px;background:var(--olive-pale);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.ci-info{flex:1;min-width:0;}
+.ci-name{font-size:13px;font-weight:500;line-height:1.35;}
+.ci-price{font-size:14px;font-weight:600;color:var(--olive);margin-top:4px;}
+.ci-qty{display:flex;align-items:center;gap:8px;margin-top:6px;}
+.qty-btn{background:var(--olive-pale);border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:14px;font-weight:600;color:var(--olive);display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.qty-btn:hover{background:var(--border);}
+.ci-qty span{font-size:13px;font-weight:500;min-width:16px;text-align:center;}
+.ci-remove{background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;padding:4px;line-height:1;flex-shrink:0;}
+.ci-remove:hover{color:#c62828;}
+.cart-foot{padding:16px 20px;border-top:1.5px solid var(--border);flex-shrink:0;}
+.cart-total{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;}
+.cart-total span:first-child{font-size:14px;color:var(--muted);}
+.cart-total strong{font-size:22px;font-weight:600;color:var(--olive);}
+.wa-share-btn{width:100%;padding:14px;background:#25D366;color:#fff;border:none;border-radius:40px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s;}
+.wa-share-btn:hover{background:#128C7E;}
+.clear-cart{width:100%;padding:10px;background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;margin-top:8px;font-family:'DM Sans',sans-serif;}
+.clear-cart:hover{color:#c62828;}
+.wa-float{position:fixed;bottom:26px;right:26px;z-index:300;background:#25D366;color:#fff;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);text-decoration:none;transition:transform .2s;}
+.wa-float:hover{transform:scale(1.08);}
+.wa-float svg{width:26px;height:26px;fill:#fff;}
+#no-results{display:none;text-align:center;padding:70px 20px;color:var(--muted);}
+footer{background:var(--olive);color:rgba(255,255,255,.7);text-align:center;padding:28px 20px;font-size:13px;line-height:2;}
+footer strong{color:#fff;}
+@media(max-width:600px){.grid{grid-template-columns:1fr 1fr;}.cart-drawer{width:100%;max-width:100%;}}
+@media(max-width:360px){.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <img src="images/banner.jpeg" alt="Shopper's Adda Banner"/>
+  <div class="hero-overlay"></div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════
+     OFFER TICKER — Edit text between <span> tags
+     Duplicate a line to add more offers
+═══════════════════════════════════════════════════ -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>🏕️ FREE Delivery on Orders Above ₹2000</span>
+    <span>🔥 Sleeping Bags Starting at Just ₹599</span>
+    <span>⛺ Waterproof Tents for All Group Sizes</span>
+    <span>🏍️ Riding Gear & Accessories Available</span>
+    <span>📞 Call or WhatsApp: 9958571213</span>
+    <span>📍 3A/29, Vishnu Garden, New Delhi – 110018</span>
+    <span>🏕️ FREE Delivery on Orders Above ₹2000</span>
+    <span>🔥 Sleeping Bags Starting at Just ₹599</span>
+    <span>⛺ Waterproof Tents for All Group Sizes</span>
+    <span>🏍️ Riding Gear & Accessories Available</span>
+    <span>📞 Call or WhatsApp: 9958571213</span>
+    <span>📍 3A/29, Vishnu Garden, New Delhi – 110018</span>
+  </div>
+</div>
+
+<nav class="cat-nav">
+  <div class="cat-nav-inner">
+    <button class="cat-btn active" onclick="filterCat('all',this)">🏠 All</button>
+    <button class="cat-btn" onclick="filterCat('sleeping-bags',this)">🛌 Sleeping Bags</button>
+    <button class="cat-btn" onclick="filterCat('tents',this)">⛺ Tents</button>
+    <button class="cat-btn" onclick="filterCat('cooking',this)">🔥 Cooking</button>
+    <button class="cat-btn" onclick="filterCat('lights',this)">💡 Lights</button>
+    <button class="cat-btn" onclick="filterCat('accessories',this)">🧰 Accessories</button>
+    <button class="cat-btn" onclick="filterCat('riding',this)">🏍️ Riding Gear</button>
+  </div>
+</nav>
+
+<div class="topbar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" placeholder="Search products, e.g. tent, torch, gloves…" oninput="searchProducts(this.value)"/>
+  </div>
+  <button class="cart-btn" onclick="openCart()">
+    🛒 My List
+    <span class="cart-count" id="cart-count" style="display:none">0</span>
+  </button>
+</div>
+
+<main id="main-content">
+  <div id="no-results">
+    <div style="font-size:42px;margin-bottom:12px">🔍</div>
+    <p style="font-size:16px">No products found.</p>
+  </div>
+</main>
+
+<footer>
+  <strong>Shopper's Adda</strong><br/>
+  3A/29, Bhatta Sahib, Vishnu Garden, Gurudwara Road, New Delhi – 110018<br/>
+  📞 9958571213 &nbsp;|&nbsp; Trekking · Camping · Hiking · Riding Gear
+</footer>
+
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-head">
+    <h2>🛒 My Shopping List</h2>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-foot" id="cart-foot" style="display:none">
+    <div class="cart-total">
+      <span>Estimated Total</span>
+      <strong id="cart-total-val">₹0</strong>
+    </div>
+    <button class="wa-share-btn" onclick="shareOnWhatsApp()">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Share List on WhatsApp
+    </button>
+    <button class="clear-cart" onclick="clearCart()">🗑️ Clear entire list</button>
+  </div>
+</div>
+
+<a href="https://wa.me/919958571213" class="wa-float" target="_blank" rel="noopener" title="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+/* ================================================================
+   ✏️  EDIT YOUR PRODUCTS HERE
+   ================================================================
+
+   HOW TO ADD / CHANGE A PRODUCT:
+   ─────────────────────────────────────────────
+   Each product entry looks like this:
+
+   { id:1, category:"sleeping-bags",
+     name:"Product Name Here",
+     price:599,
+     oldPrice:799,           ← OPTIONAL: shows crossed-out old price
+     emoji:"🛌",             ← shown when no photo added
+     image:"images/p1.jpg",  ← OPTIONAL: your product photo
+     badge:"Popular",        ← OPTIONAL: Popular | New | Hot  (or "")
+     offer:"Buy 2 Get 10%"   ← OPTIONAL: any offer text (or "")
+   },
+
+   CATEGORIES (copy exactly):
+     sleeping-bags | tents | cooking | lights | accessories | riding
+
+   HOW TO ADD A PRODUCT PHOTO:
+     1. Take a clear photo of your product
+     2. Go to GitHub → your repo → "images" folder
+     3. Click "Add file" → "Upload files" → upload your photo
+     4. Note the filename (e.g. tent-4person.jpg)
+     5. Set  image:"images/tent-4person.jpg"  in the product below
+     6. Commit → your site updates in ~1 minute!
+
+   HOW TO CHANGE A PRICE:
+     Just change the number after  price:
+
+   HOW TO ADD AN OFFER:
+     Set  offer:"Buy 2 Get 10% Off"  in the product
+
+   HOW TO REMOVE A PRODUCT:
+     Delete the entire { ... }, line for that product
+
+================================================================ */
+
+const PRODUCTS = [
+
+  /* ─── SLEEPING BAGS ──────────────────────────────────────── */
+  { id:1,  category:"sleeping-bags", name:"Lightweight Sleeping Bag — 15°C to 10°C",                             price:599,  emoji:"🛌", image:"", badge:"",        offer:"" },
+  { id:2,  category:"sleeping-bags", name:"Sleeping Bag — 10°C to 5°C",                                          price:899,  emoji:"🛌", image:"", badge:"",        offer:"" },
+  { id:3,  category:"sleeping-bags", name:"Sleeping Bag with Fur — 5°C to 0°C",                                  price:1199, emoji:"🛌", image:"", badge:"",        offer:"" },
+  { id:4,  category:"sleeping-bags", name:"Sleeping Bag — 10°C to 0°C",                                          price:1299, emoji:"🛌", image:"", badge:"",        offer:"" },
+  { id:5,  category:"sleeping-bags", name:"Sleeping Bag with Imported Fur — 0°C to -5°C",                        price:1399, emoji:"🛌", image:"", badge:"",        offer:"" },
+  { id:6,  category:"sleeping-bags", name:"Sleeping Bag with Imported Fur & Detachable Inner — 0°C to -10°C",    price:1599, emoji:"🛌", image:"", badge:"",        offer:"" },
+  { id:7,  category:"sleeping-bags", name:"Lightweight Waterproof Sleeping Bag — Up to -5°C",                    price:1499, emoji:"🛌", image:"", badge:"Popular", offer:"" },
+  { id:8,  category:"sleeping-bags", name:"Couple / Double Sleeping Bag — Warm & Comfortable",                   price:1999, emoji:"👫", image:"", badge:"",        offer:"" },
+  { id:9,  category:"sleeping-bags", name:"Rectangular Sleeping Bag with Detachable Inner — Up to -20°C",        price:1999, emoji:"🛌", image:"", badge:"Hot",     offer:"" },
+
+  /* ─── CAMPING TENTS ──────────────────────────────────────── */
+  { id:10, category:"tents", name:"2 Person Waterproof Camping Tent",                                             price:1199, emoji:"⛺", image:"", badge:"",        offer:"" },
+  { id:11, category:"tents", name:"4 Person Waterproof Camping Tent",                                             price:1499, emoji:"⛺", image:"", badge:"Popular", offer:"" },
+  { id:12, category:"tents", name:"6 Person Waterproof Camping Tent",                                             price:1999, emoji:"⛺", image:"", badge:"",        offer:"" },
+  { id:13, category:"tents", name:"8 Person Waterproof Camping Tent",                                             price:2399, emoji:"⛺", image:"", badge:"",        offer:"" },
+  { id:14, category:"tents", name:"2 Men Double Layer Waterproof Tent",                                           price:1799, emoji:"⛺", image:"", badge:"New",     offer:"" },
+  { id:15, category:"tents", name:"4 Men Double Layer Waterproof Tent",                                           price:2199, emoji:"⛺", image:"", badge:"",        offer:"" },
+  { id:16, category:"tents", name:"6 Men Double Layer Waterproof Tent",                                           price:2499, emoji:"⛺", image:"", badge:"",        offer:"" },
+  { id:17, category:"tents", name:"Portable Toilet / Shower / Changing Room Popup Tent (Multi Color)",            price:1499, emoji:"🚿", image:"", badge:"",        offer:"" },
+
+  /* ─── COOKING ─────────────────────────────────────────────── */
+  { id:18, category:"cooking", name:"Gas Camp Stove — Foldable Stainless Steel (Small)",                         price:449,  emoji:"🔥", image:"", badge:"",        offer:"" },
+  { id:19, category:"cooking", name:"Gas Camp Stove — Foldable Stainless Steel (Large)",                         price:849,  emoji:"🔥", image:"", badge:"",        offer:"" },
+  { id:20, category:"cooking", name:"Portable Camp Stove with Piezo Ignition, Wind-Resistant, Ultralight",       price:1199, emoji:"🔥", image:"", badge:"Popular", offer:"" },
+  { id:21, category:"cooking", name:"Portable Backpacking Stove — Lightweight, Strong Firepower",                price:1499, emoji:"🔥", image:"", badge:"",        offer:"" },
+  { id:22, category:"cooking", name:"Suitcase Portable Gas Stove — 2-in-1 LPG & Butane Connector",              price:1799, emoji:"🔥", image:"", badge:"",        offer:"" },
+  { id:23, category:"cooking", name:"Flame Gun",                                                                  price:299,  emoji:"🔦", image:"", badge:"",        offer:"" },
+  { id:24, category:"cooking", name:"Butane Gas for High Altitude — 225g",                                       price:149,  emoji:"💨", image:"", badge:"",        offer:"" },
+  { id:25, category:"cooking", name:"Butane Gas for High Altitude — 310g",                                       price:199,  emoji:"💨", image:"", badge:"",        offer:"" },
+  { id:26, category:"cooking", name:"Camping Cooking Set — For 1–2 Person",                                      price:1399, emoji:"🍳", image:"", badge:"",        offer:"" },
+  { id:27, category:"cooking", name:"Camping Cooking Set with Kettle — For 3–4 Person",                          price:1849, emoji:"🍳", image:"", badge:"",        offer:"" },
+  { id:28, category:"cooking", name:"Camping Cooking Set — For 6–8 Person",                                      price:2799, emoji:"🍳", image:"", badge:"",        offer:"" },
+  { id:29, category:"cooking", name:"3-in-1 Stainless Steel Folding Knife, Fork & Spoon Set",                    price:199,  emoji:"🍴", image:"", badge:"",        offer:"" },
+  { id:30, category:"cooking", name:"Folding Stainless Steel Travel Mug — 150ml",                                price:199,  emoji:"🥤", image:"", badge:"",        offer:"" },
+  { id:31, category:"cooking", name:"Kiditos Expandable Silicone Sipper Water Bottle with Snap Hook",            price:299,  emoji:"🥤", image:"", badge:"",        offer:"" },
+
+  /* ─── LIGHTS ──────────────────────────────────────────────── */
+  { id:32, category:"lights", name:"Bright USB LED Bulb — 9 Watts",                                              price:69,   emoji:"💡", image:"", badge:"",        offer:"" },
+  { id:33, category:"lights", name:"USB LED Mini Tube Light",                                                     price:99,   emoji:"💡", image:"", badge:"",        offer:"" },
+  { id:34, category:"lights", name:"Portable USB LED Mini Tube Light (iPortable)",                               price:129,  emoji:"💡", image:"", badge:"",        offer:"" },
+  { id:35, category:"lights", name:"COB Small Flashlight — 800 Lumens",                                          price:149,  emoji:"🔦", image:"", badge:"",        offer:"" },
+  { id:36, category:"lights", name:"Rechargeable Keychain Flashlight — 4 Modes, Bottle Opener & Magnet Base",   price:199,  emoji:"🔦", image:"", badge:"Popular", offer:"" },
+  { id:37, category:"lights", name:"Mini LED Torch Keychain Light",                                              price:549,  emoji:"🔦", image:"", badge:"",        offer:"" },
+  { id:38, category:"lights", name:"Stardeep Night Lamp 4.0 — Solar + 2000mAh, 8hr Emergency Lantern",          price:399,  emoji:"🏮", image:"", badge:"New",     offer:"" },
+  { id:39, category:"lights", name:"LED Headlamp USB Rechargeable — Weatherproof",                               price:549,  emoji:"🔦", image:"", badge:"",        offer:"" },
+  { id:40, category:"lights", name:"Metal LED Flashlight Torch",                                                  price:549,  emoji:"🔦", image:"", badge:"",        offer:"" },
+
+  /* ─── ACCESSORIES ─────────────────────────────────────────── */
+  { id:41, category:"accessories", name:"Survival Multipurpose Multi Tool (Red)",                                price:199,  emoji:"🧰", image:"", badge:"",        offer:"" },
+  { id:42, category:"accessories", name:"12-in-1 Hammer Tool Kit — Knife, Axe, Bottle Opener, Nut & Car Safety",price:449,  emoji:"🧰", image:"", badge:"",        offer:"" },
+  { id:43, category:"accessories", name:"Multitool Mini Outdoor Camping Folding Shovel",                         price:549,  emoji:"🪚", image:"", badge:"",        offer:"" },
+  { id:44, category:"accessories", name:"Survival Bracelet — Flint Fire Starter, Compass & Whistle",            price:249,  emoji:"⌚", image:"", badge:"",        offer:"" },
+  { id:45, category:"accessories", name:"Heavy Duty Magnesium Rod Fire Starter with Multifunctional Scraper",   price:199,  emoji:"🔥", image:"", badge:"",        offer:"" },
+  { id:46, category:"accessories", name:"Portable Solar Shower — 20 Litre",                                     price:699,  emoji:"🚿", image:"", badge:"",        offer:"" },
+  { id:47, category:"accessories", name:"Portable Collapsible Water Storage Bag — 3L",                          price:149,  emoji:"🪣", image:"", badge:"",        offer:"" },
+  { id:48, category:"accessories", name:"Portable Collapsible Water Storage Bag — 5L",                          price:199,  emoji:"🪣", image:"", badge:"",        offer:"" },
+  { id:49, category:"accessories", name:"Portable Collapsible Water Storage Bag — 10L",                         price:249,  emoji:"🪣", image:"", badge:"",        offer:"" },
+  { id:50, category:"accessories", name:"Trekking Magnetic Compass (Silver)",                                    price:249,  emoji:"🧭", image:"", badge:"",        offer:"" },
+  { id:51, category:"accessories", name:"Mini Folding Stool — Steel, Blue",                                      price:349,  emoji:"🪑", image:"", badge:"",        offer:"" },
+  { id:52, category:"accessories", name:"Folding Camping Stool for Fishing, Hiking & Gardening",                 price:349,  emoji:"🪑", image:"", badge:"",        offer:"" },
+  { id:53, category:"accessories", name:"Mini Folding Stool cum Chair — Camping, Hiking, Picnic",               price:599,  emoji:"🪑", image:"", badge:"",        offer:"" },
+  { id:54, category:"accessories", name:"Outdoor Foldable Beach Chair with Armrest & Cup Holder",               price:899,  emoji:"🪑", image:"", badge:"Popular", offer:"Large Size ₹1,199" },
+  { id:55, category:"accessories", name:"Snow Ice Walking Crampon — Anti-Slip Shoes for Hiking",                price:649,  emoji:"🧊", image:"", badge:"",        offer:"" },
+  { id:56, category:"accessories", name:"Unistar Men's High Ankle Jungle Boot — Olive Green",                   price:999,  emoji:"👟", image:"", badge:"",        offer:"" },
+  { id:57, category:"accessories", name:"Solid Men's Raincoat",                                                  price:299,  emoji:"🌧️",image:"", badge:"",        offer:"" },
+  { id:58, category:"accessories", name:"Women's Raincoat",                                                      price:299,  emoji:"🌧️",image:"", badge:"",        offer:"" },
+  { id:59, category:"accessories", name:"Waterproof Shoe Cover",                                                 price:199,  emoji:"🥾", image:"", badge:"",        offer:"" },
+  { id:60, category:"accessories", name:"Raincoat Poncho",                                                       price:449,  emoji:"🌧️",image:"", badge:"",        offer:"" },
+  { id:61, category:"accessories", name:"Woven Beanie",                                                          price:199,  emoji:"🎩", image:"", badge:"",        offer:"" },
+  { id:62, category:"accessories", name:"Full Finger Winter Gloves — Fur Inside, Windproof (Men & Women)",      price:199,  emoji:"🧤", image:"", badge:"",        offer:"" },
+
+  /* ─── RIDING GEAR ─────────────────────────────────────────── */
+  { id:63, category:"riding", name:"Pro-X Alloy Stainless Steel Elbow & Knee Guard (Standard)",                 price:999,  emoji:"🛡️", image:"", badge:"",        offer:"" },
+  { id:64, category:"riding", name:"Pro-X Alloy Stainless Steel Elbow & Knee Guard (Premium)",                  price:1499, emoji:"🛡️", image:"", badge:"",        offer:"" },
+  { id:65, category:"riding", name:"Probiker Riding Gloves",                                                     price:299,  emoji:"🧤", image:"", badge:"",        offer:"" },
+  { id:66, category:"riding", name:"GalaxyMan Riding Gloves",                                                    price:499,  emoji:"🧤", image:"", badge:"",        offer:"" },
+  { id:67, category:"riding", name:"Balaclava",                                                                   price:149,  emoji:"🎭", image:"", badge:"",        offer:"" },
+  { id:68, category:"riding", name:"Full Face Cotton Black Bandana",                                             price:59,   emoji:"😷", image:"", badge:"",        offer:"" },
+  { id:69, category:"riding", name:"Arm Sleeves / Hand Socks (Unisex)",                                          price:149,  emoji:"💪", image:"", badge:"",        offer:"" },
+  { id:70, category:"riding", name:"Goggle with Face Mask",                                                      price:249,  emoji:"🥽", image:"", badge:"",        offer:"" },
+  { id:71, category:"riding", name:"Long Shoe Cover — For Riding & Snow Trekking",                              price:699,  emoji:"🥾", image:"", badge:"",        offer:"" },
+
+];
+
+/* ═══ APP LOGIC — No need to edit below ═══ */
+
+const SECTION_LABELS={
+  "sleeping-bags":"Sleeping Bags","tents":"Camping Tents","cooking":"Cooking Accessories",
+  "lights":"Lights","accessories":"Trekking & Camping Accessories","riding":"Riding Gear & Accessories"
+};
+const SECTION_EMOJIS={"sleeping-bags":"🛌","tents":"⛺","cooking":"🔥","lights":"💡","accessories":"🧰","riding":"🏍️"};
+const BADGE_CLS={Popular:"badge-popular",New:"badge-new",Hot:"badge-hot"};
+
+let cart=JSON.parse(localStorage.getItem('sa_cart')||'[]');
+let activeFilter='all', searchQuery='';
+
+function saveCart(){localStorage.setItem('sa_cart',JSON.stringify(cart));}
+function getItem(id){return cart.find(i=>i.id===id);}
+
+function addToCart(id){
+  const p=PRODUCTS.find(x=>x.id===id);
+  const ex=getItem(id);
+  if(ex){ex.qty++;}else{cart.push({id:p.id,name:p.name,price:p.price,emoji:p.emoji,image:p.image,qty:1});}
+  saveCart();updateCartUI();animateBtn(id);
+}
+function removeFromCart(id){cart=cart.filter(i=>i.id!==id);saveCart();updateCartUI();renderCart();}
+function changeQty(id,d){const it=getItem(id);if(!it)return;it.qty+=d;if(it.qty<=0){removeFromCart(id);return;}saveCart();updateCartUI();renderCart();}
+function clearCart(){cart=[];saveCart();updateCartUI();renderCart();}
+
+function updateCartUI(){
+  const n=cart.reduce((s,i)=>s+i.qty,0),el=document.getElementById('cart-count');
+  el.textContent=n;el.style.display=n>0?'flex':'none';
+  if(n>0){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
+}
+
+function animateBtn(id){
+  const b=document.querySelector(`[data-id="${id}"]`);
+  if(!b)return;b.classList.add('added');b.textContent='✓';
+  setTimeout(()=>{b.classList.remove('added');b.textContent='+';},900);
+}
+
+function renderCart(){
+  const wrap=document.getElementById('cart-items'),foot=document.getElementById('cart-foot');
+  if(!cart.length){
+    wrap.innerHTML=`<div class="cart-empty"><div class="ce-icon">🛒</div><p>Your list is empty.<br/>Tap <strong>+</strong> on any product to add it.</p></div>`;
+    foot.style.display='none';return;
+  }
+  foot.style.display='';
+  let total=0;
+  wrap.innerHTML=cart.map(it=>{
+    total+=it.price*it.qty;
+    const img=it.image?`<img src="${it.image}" class="ci-img" alt="${it.name}" onerror="this.outerHTML='<div class=ci-emoji>${it.emoji}</div>'">`:`<div class="ci-emoji">${it.emoji}</div>`;
+    return `<div class="cart-item">${img}<div class="ci-info"><div class="ci-name">${it.name}</div><div class="ci-price">₹${it.price.toLocaleString('en-IN')}</div><div class="ci-qty"><button class="qty-btn" onclick="changeQty(${it.id},-1)">−</button><span>${it.qty}</span><button class="qty-btn" onclick="changeQty(${it.id},1)">+</button></div></div><button class="ci-remove" onclick="removeFromCart(${it.id})">✕</button></div>`;
+  }).join('');
+  document.getElementById('cart-total-val').textContent='₹'+total.toLocaleString('en-IN');
+}
+
+function openCart(){renderCart();document.getElementById('cart-drawer').classList.add('open');document.getElementById('cart-overlay').classList.add('open');}
+function closeCart(){document.getElementById('cart-drawer').classList.remove('open');document.getElementById('cart-overlay').classList.remove('open');}
+
+function shareOnWhatsApp(){
+  if(!cart.length)return;
+  let msg=`Hi! I'd like to order the following from *Shopper's Adda*:\n\n`,total=0;
+  cart.forEach((it,i)=>{const s=it.price*it.qty;total+=s;msg+=`${i+1}. ${it.name}\n   ${it.qty} × ₹${it.price.toLocaleString('en-IN')} = ₹${s.toLocaleString('en-IN')}\n\n`;});
+  msg+=`*Total: ₹${total.toLocaleString('en-IN')}*\n📍 3A/29, Vishnu Garden, New Delhi – 110018`;
+  window.open('https://wa.me/919958571213?text='+encodeURIComponent(msg),'_blank');
+}
+
+function cardHTML(p){
+  const badge=p.badge?`<span class="badge ${BADGE_CLS[p.badge]||'badge-popular'}">${p.badge}</span>`:'';
+  const offer=p.offer?`<div class="offer-tag">🏷️ ${p.offer}</div>`:'';
+  const oldP=p.oldPrice?`<span class="card-price-old">₹${p.oldPrice.toLocaleString('en-IN')}</span>`:'';
+  const hasImg=!!p.image;
+  const imgEl=hasImg?`<img class="card-img" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`:''
+  const ph=`<div class="card-img-placeholder" ${hasImg?'style="display:none"':''}>${p.emoji}</div>`;
+  return `<div class="card">${imgEl}${ph}<div class="card-body">${badge}<div class="card-name">${p.name}</div>${offer}<div class="card-bottom"><div class="card-price">₹${p.price.toLocaleString('en-IN')}${oldP}</div><button class="add-btn" data-id="${p.id}" onclick="addToCart(${p.id})" title="Add to list">+</button></div></div></div>`;
+}
+
+function renderProducts(list){
+  const main=document.getElementById('main-content'),noR=document.getElementById('no-results');
+  main.querySelectorAll('.section').forEach(s=>s.remove());
+  if(!list.length){noR.style.display='';return;}
+  noR.style.display='none';
+  const cats=Object.keys(SECTION_LABELS),byC={};
+  cats.forEach(c=>{byC[c]=[];});
+  list.forEach(p=>{if(byC[p.category])byC[p.category].push(p);});
+  cats.forEach(cat=>{
+    const items=byC[cat];if(!items.length)return;
+    const sec=document.createElement('section');
+    sec.className='section';sec.dataset.category=cat;sec.id='sec-'+cat;
+    sec.innerHTML=`<div class="section-header"><h2 class="section-title">${SECTION_EMOJIS[cat]} ${SECTION_LABELS[cat]}</h2><span class="section-count">${items.length} item${items.length>1?'s':''}</span></div><div class="grid">${items.map(cardHTML).join('')}</div>`;
+    main.insertBefore(sec,noR);
+  });
+}
+
+function filterCat(cat,btn){
+  activeFilter=cat;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');applyFilters();
+  if(cat!=='all')setTimeout(()=>{const s=document.getElementById('sec-'+cat);if(s)s.scrollIntoView({behavior:'smooth',block:'start'});},80);
+}
+function searchProducts(q){searchQuery=q.toLowerCase().trim();applyFilters();}
+function applyFilters(){
+  let f=PRODUCTS;
+  if(activeFilter!=='all')f=f.filter(p=>p.category===activeFilter);
+  if(searchQuery)f=f.filter(p=>p.name.toLowerCase().includes(searchQuery)||p.badge.toLowerCase().includes(searchQuery));
+  renderProducts(f);
+}
+
+renderProducts(PRODUCTS);
+updateCartUI();
+</script>
+</body>
+</html>
